@@ -37,6 +37,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
+      - name: Setup Git
+        run: git config user.name "github-actions[bot]" && git config user.email "github-actions[bot]@users.noreply.github.com"
       - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
@@ -48,6 +50,8 @@ jobs:
       - run: npm ci
       - name: Bump version
         run: npm version --preid rc ${{ inputs.version_bump }}
+      - name: Push with tags
+        run: git push --follow-tags
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
