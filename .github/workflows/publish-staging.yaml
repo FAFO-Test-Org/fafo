@@ -1,0 +1,49 @@
+name: publish-staging
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Version bump'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+      - name: Update .npmrc
+        run: |
+          echo "@fafo-test-org:registry=https://npm.pkg.github.com" >> ~/.npmrc
+        # Use staging environment packages for test
+      - run: npm ci
+      - run: npm test
+
+  publish:
+    needs: test # Don't publish without passing tests
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+      - name: Update .npmrc
+        run: |
+          echo "@fafo-test-org:registry=https://npm.pkg.github.com" >> ~/.npmrc
+        # Use staging environment packages for staging deploy
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

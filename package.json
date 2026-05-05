@@ -1,0 +1,22 @@
+{
+  "name": "awesome-package",
+  "version": "0.0.1",
+  "description": "Awesome Description",
+  "license": "...",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ORG/REPO.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ORG/REPO/issues"
+  },
+  "homepage": "https://github.com/ORG/REPO#readme",
+  "author": "...",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No Test Command Specified\" && exit 1"
+  },
+  "packageManager": "npm@11.13.0",
+  "dependencies": {}
+}
