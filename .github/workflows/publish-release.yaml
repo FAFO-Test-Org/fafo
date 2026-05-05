@@ -1,4 +1,4 @@
-name: publish-staging
+name: publish-release
 
 on:
   workflow_dispatch:
@@ -52,7 +52,7 @@ jobs:
         # Use staging environment packages for staging deploy
       - run: npm ci
       - name: Bump version
-        run: npm version
+        run: npm version patch
       - name: Push with tags
         run: git push --follow-tags
       - run: npm publish
