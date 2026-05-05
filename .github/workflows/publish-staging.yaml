@@ -3,15 +3,16 @@ name: publish-staging
 on:
   workflow_dispatch:
     inputs:
-      environment:
+      version_bump:
         description: 'Version bump'
         required: true
-        default: 'patch'
+        default: 'prerelease'
         type: choice
         options:
-          - major
-          - minor
-          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
 
 jobs:
   test:
@@ -44,6 +45,8 @@ jobs:
           echo "@fafo-test-org:registry=https://npm.pkg.github.com" >> ~/.npmrc
         # Use staging environment packages for staging deploy
       - run: npm ci
+      - name: Bump version
+        run: npm --preid rc ${{ inputs.version_bump }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
