@@ -47,7 +47,7 @@ jobs:
         # Use staging environment packages for staging deploy
       - run: npm ci
       - name: Bump version
-        run: npm --preid rc ${{ inputs.version_bump }}
+        run: npm version --preid rc ${{ inputs.version_bump }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
