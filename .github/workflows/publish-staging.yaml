@@ -49,7 +49,7 @@ jobs:
         # Use staging environment packages for staging deploy
       - run: npm ci
       - name: Bump version
-        run: npm version --preid rc ${{ inputs.version_bump }}
+        run: npm version --tag next --preid next ${{ inputs.version_bump }}
       - name: Push with tags
         run: git push --follow-tags
       - run: npm publish
