@@ -52,6 +52,6 @@ jobs:
         run: npm version --preid next ${{ inputs.version_bump }}
       - name: Push with tags
         run: git push --follow-tags
-      - run: npm publish --registry https://npm.pkg.github.com --tag next 
+      - run: npm publish --registry https://npm.pkg.github.com --tag next
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
