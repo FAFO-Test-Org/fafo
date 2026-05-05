@@ -49,9 +49,9 @@ jobs:
         # Use staging environment packages for staging deploy
       - run: npm ci
       - name: Bump version
-        run: npm version --tag next --preid next ${{ inputs.version_bump }}
+        run: npm version --preid next ${{ inputs.version_bump }}
       - name: Push with tags
         run: git push --follow-tags
-      - run: npm publish
+      - run: npm publish --tag next 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
