@@ -31,12 +31,22 @@ jobs:
 
   publish:
     needs: test # Don't publish without passing tests
+    environment: staging
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: write
     steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          client-id: ${{ vars.DEPLOY_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
       - uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+        # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
+        persist-credentials: false
       - name: Setup Git
         run: git config user.name "github-actions[bot]" && git config user.email "github-actions[bot]@users.noreply.github.com"
       - uses: actions/setup-node@v6
